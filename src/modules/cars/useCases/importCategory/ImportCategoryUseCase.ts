@@ -15,6 +15,7 @@ class ImportCategoryUseCase {
   loadCategories(file: any): Promise<IImportCategories[]> {
     return new Promise((resolve, reject) => {
       const { path } = file
+
       const stream = fs.createReadStream(path)
 
       const categories: IImportCategories[] = []
@@ -36,14 +37,16 @@ class ImportCategoryUseCase {
 
   }
   async execute(file: any): Promise<void> {
-    const categories = await this.loadCategories(file)
-    categories.forEach(category => {
-      const alreadyExists = this.categoryRepository.findByName(category.name)
+    if (file) {
+      const categories = await this.loadCategories(file)
+      categories.forEach(category => {
+        const alreadyExists = this.categoryRepository.findByName(category.name)
 
-      if(!alreadyExists) {
-        this.categoryRepository.create(category)
-      }
-    })
+        if (!alreadyExists) {
+          this.categoryRepository.create(category)
+        }
+      })
+    }
   }
 }
 
