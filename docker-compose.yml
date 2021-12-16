@@ -1,6 +1,19 @@
 version: '3.7'
 
 services:
+  database: 
+    image: postgres
+    container_name: datebase_ignite
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=rentex
+    volumes:
+      - pgdata:/data/postgres
+
   app:
     build: .
     container_name: rentex
@@ -8,3 +21,11 @@ services:
       - 3000:3000
     volumes:
       - .:/usr/app
+    links:
+      - database
+    depends_on:
+      - database
+
+volumes:
+  pgdata:
+    driver: local
