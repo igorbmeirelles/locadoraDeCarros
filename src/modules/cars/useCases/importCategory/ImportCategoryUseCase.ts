@@ -1,14 +1,19 @@
 import fs from 'fs'
 import { parse } from 'csv-parse'
 import { ICategoriesRepository } from '../../repositories/categories/ICategoriesRepository'
+import "reflect-metadata"
+import { inject, injectable } from "tsyringe";
 
 interface IImportCategories {
   name: string;
   description: string;
 }
+
+@injectable()
 class ImportCategoryUseCase {
   private categoryRepository: ICategoriesRepository
-  constructor(categoryRepository: ICategoriesRepository) {
+
+  constructor(@inject("CategoriesRepository") categoryRepository: ICategoriesRepository) {
     this.categoryRepository = categoryRepository
   }
 
@@ -39,11 +44,11 @@ class ImportCategoryUseCase {
   async execute(file: any): Promise<void> {
     if (file) {
       const categories = await this.loadCategories(file)
-      categories.forEach(category => {
-        const alreadyExists = this.categoryRepository.findByName(category.name)
+      categories.forEach(async category => {
+        const alreadyExists = await this.categoryRepository.findByName(category.name)
 
         if (!alreadyExists) {
-          this.categoryRepository.create(category)
+          await this.categoryRepository.create(category)
         }
       })
     }
