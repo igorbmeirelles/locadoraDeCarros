@@ -8,7 +8,6 @@ import multer from "multer";
 
 const createCategoryController = new CreateCategoryController()
 
-
 const upload = multer({ dest: "./temp" });
 
 const CategoriesRoutes = Router();
