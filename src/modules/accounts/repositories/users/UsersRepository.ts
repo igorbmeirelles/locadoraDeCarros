@@ -19,8 +19,8 @@ class UsersRepository implements IUsersRepository {
     return user
   }
 
-  findByUsername(username: string): Promise<User> {
-    throw new Error("Method not implemented.");
+  findByEmail(email: string): Promise<User> {
+    return this.repository.findOne({ email });
   }
 
 

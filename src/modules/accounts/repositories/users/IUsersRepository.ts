@@ -5,7 +5,7 @@ import { User } from "../../entities/User";
 
 interface IUsersRepository {
   create({ name, password, email, driver_license }: ICreateUsersDTO): Promise<User>;
-  findByUsername(username: string): Promise<User>;
+  findByEmail(email: string): Promise<User>;
 }
 
 export { IUsersRepository };
