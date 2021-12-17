@@ -8,14 +8,19 @@ class CreateSpecificationsController {
     this.createSpecificationsUseCase = createSpecificationsUseCase
   }
 
-  handle(req: Request, res: Response): Response {
+  async handle(req: Request, res: Response): Promise<Response> {
     const { name, description } = req.body;
 
     // const specificationsService = new CreateSpecificationsUseCase(specificationsRepository);
+    try {
+      await this.createSpecificationsUseCase.execute({ name, description });
 
-    this.createSpecificationsUseCase.execute({ name, description });
-
-    return res.status(201).send();
+      return res.status(201).send();
+    } catch (err) {
+      return res.status(400).json({
+        message: err.message || "Unexpected error."
+      });
+    }
   }
 }
 

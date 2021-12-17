@@ -1,36 +1,35 @@
+import { getRepository, Repository } from "typeorm";
 import { Specification } from "../../entities/Specification";
-import { ICreateSpecificationsRepositoryDTO } from "./ISpecificationsRepository";
+import { ICreateSpecificationsRepositoryDTO, ISpecificationsRepository } from "./ISpecificationsRepository";
 
-class SpecificationsRepository {
-  private SpecificationsRepository: Specification[]
+class SpecificationsRepository implements ISpecificationsRepository {
+  private repository: Repository<Specification>
 
-  private static INSTANCE: SpecificationsRepository;
+  // private static INSTANCE: SpecificationsRepository;
 
-  private constructor() {
-    this.SpecificationsRepository = [];
+  constructor() {
+    this.repository = getRepository(Specification);
   }
 
-  public static getInstance(): SpecificationsRepository {
-    if (!SpecificationsRepository.INSTANCE) {
-      SpecificationsRepository.INSTANCE = new SpecificationsRepository();
-    }
+  // public static getInstance(): SpecificationsRepository {
+  //   if (!SpecificationsRepository.INSTANCE) {
+  //     SpecificationsRepository.INSTANCE = new SpecificationsRepository();
+  //   }
 
-    return SpecificationsRepository.INSTANCE;
-  }
-  create({ name, description }: ICreateSpecificationsRepositoryDTO): void {
-    const SpecificationsRepository: Specification = new Specification()
+  //   return SpecificationsRepository.INSTANCE;
+  // }
+  async create({ name, description }: ICreateSpecificationsRepositoryDTO): Promise<void> {
+    const specification = this.repository.create({ name, description });
 
-    Object.assign(SpecificationsRepository, { name, description, created_at: new Date() })
-
-    this.SpecificationsRepository.push(SpecificationsRepository);
+    await this.repository.save(specification);
   }
 
-  list(): Specification[] {
-    return this.SpecificationsRepository;
+  async list(): Promise<Specification[]> {
+    return await this.repository.find();
   }
 
-  findByName(name: string): Specification | undefined {
-    return this.SpecificationsRepository.find(SpecificationsRepository => SpecificationsRepository.name === name)
+  async findByName(name: string): Promise<Specification> | undefined {
+    return await this.repository.findOne({name})
   }
 }
 

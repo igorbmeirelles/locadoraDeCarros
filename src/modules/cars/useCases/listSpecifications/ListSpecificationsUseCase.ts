@@ -1,5 +1,5 @@
+import { Specification } from "../../entities/Specification";
 import { ISpecificationsRepository } from "../../repositories/specifications/ISpecificationsRepository";
-import { SpecificationsRepository } from "../../repositories/specifications/SpecificationsRepository";
 
 class ListSpecificationsUseCase {
   private specificationsRepository: ISpecificationsRepository;
@@ -7,8 +7,8 @@ class ListSpecificationsUseCase {
     this.specificationsRepository = specificationsRepository;
   }
 
-  execute() {
-    const list = this.specificationsRepository.list();
+  async execute(): Promise<Specification[]> {
+    const list = await this.specificationsRepository.list();
     return list;
   }
 }
