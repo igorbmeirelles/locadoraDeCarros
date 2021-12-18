@@ -1,7 +1,7 @@
-import { inject, injectable } from "tsyringe";
 import { User } from "../../entities/User";
 import { IUsersRepository } from "../../repositories/users/IUsersRepository";
 import { hash } from "bcryptjs";
+import { inject, injectable } from "tsyringe";
 
 interface IRequest {
   name: string;
