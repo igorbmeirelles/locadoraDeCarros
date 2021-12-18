@@ -1,6 +1,6 @@
 import { Router } from "express"
 
-import listCategoriesController from "../modules/cars/useCases/listCategories";
+import { ListCategoriesController } from "../modules/cars/useCases/listCategories/ListCategoriesController";
 import { CreateCategoryController } from "../modules/cars/useCases/createCategories/CreateCategoriesController";
 import { ImportCategoryController } from "../modules/cars/useCases/importCategory/ImportCategoryController";
 
@@ -14,9 +14,7 @@ const CategoriesRoutes = Router();
 
 CategoriesRoutes.post("/", createCategoryController.handle)
 
-CategoriesRoutes.get("/", (req, res) => {
-  return listCategoriesController().handle(req, res)
-})
+CategoriesRoutes.get("/", new ListCategoriesController().handle)
 
 CategoriesRoutes.post("/import", upload.single("file"), new ImportCategoryController().handle)
 
