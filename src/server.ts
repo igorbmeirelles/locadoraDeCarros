@@ -2,7 +2,7 @@ import "reflect-metadata";
 
 import express, { NextFunction, Response, Request } from "express";
 import "express-async-errors";
-import { router } from "./routes"
+import { router } from "./shared/infra/http/routes"
 
 import "./database"
 import "./shared/container"
