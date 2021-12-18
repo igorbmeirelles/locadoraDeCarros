@@ -1,7 +1,11 @@
-import express from "express";
+import "reflect-metadata";
+import express, { NextFunction, Response, Request } from "express";
 import { router } from "./routes"
+import { AppError } from "./errors/AppError";
+
 import "./database"
 import "./shared/container"
+
 const app = express();
 
 app.use(express.json())
