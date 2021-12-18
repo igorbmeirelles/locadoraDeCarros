@@ -34,6 +34,7 @@ class ImportCategoryUseCase {
         categories.push(category)
       })
         .on("end", () => {
+          fs.promises.unlink(path)
           resolve(categories)
         })
         .on("error", err => reject(err))
