@@ -6,7 +6,7 @@ import { router } from "./shared/infra/http/routes"
 
 import "./database"
 import "./shared/container"
-import { AppError } from "./errors/AppError";
+import { AppError } from "./shared/errors/AppError";
 
 const app = express();
 

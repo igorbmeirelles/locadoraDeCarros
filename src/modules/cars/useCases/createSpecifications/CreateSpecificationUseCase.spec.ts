@@ -1,4 +1,4 @@
-import { AppError } from "../../../../errors/AppError";
+import { AppError } from "../../../../shared/errors/AppError";
 import { SpecificationsRepositoryInMemory } from "../../repositories/specifications/inMemory/SpecificationRepositoryInMemory";
 import { ISpecificationsRepositoryDTO } from "../../repositories/specifications/ISpecificationsRepository";
 import { CreateSpecificationsUseCase } from "./CreateSpecificationsUseCase";
