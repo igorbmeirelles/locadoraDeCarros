@@ -1,7 +1,6 @@
 import fs from 'fs'
 import { parse } from 'csv-parse'
 import { ICategoriesRepository } from '../../repositories/categories/ICategoriesRepository'
-import "reflect-metadata"
 import { inject, injectable } from "tsyringe";
 
 interface IImportCategories {
