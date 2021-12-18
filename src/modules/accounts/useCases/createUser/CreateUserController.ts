@@ -5,18 +5,12 @@ import { CreateUserUseCase } from "./CreateUserUseCase";
 class CreateUserController {
   async handle(req: Request, res: Response): Promise<Response> {
     const { name, username, password, email, driver_license } = req.body;
-    
+
     const createUserUseCase = container.resolve(CreateUserUseCase);
 
-    try {
-      const user = await createUserUseCase.execute({ name, password, email, driver_license });
+    const user = await createUserUseCase.execute({ name, password, email, driver_license });
 
-      return res.status(201).json(user);
-
-    } catch (err) {
-      return res.status(400).json({ message: err.message || "Unexpected error" });
-    }
-
+    return res.status(201).json(user);
   }
 }
 

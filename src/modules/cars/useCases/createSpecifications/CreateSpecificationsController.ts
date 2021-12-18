@@ -8,15 +8,9 @@ class CreateSpecificationsController {
     const { name, description } = req.body;
 
     const createSpecificationsUseCase = container.resolve(CreateSpecificationsUseCase);
-    try {
-      await createSpecificationsUseCase.execute({ name, description });
+    await createSpecificationsUseCase.execute({ name, description });
 
-      return res.status(201).send();
-    } catch (err) {
-      return res.status(400).json({
-        message: err.message || "Unexpected error."
-      });
-    }
+    return res.status(201).send();
   }
 }
 

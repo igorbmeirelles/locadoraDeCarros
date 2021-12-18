@@ -2,6 +2,7 @@ import { User } from "../../entities/User";
 import { IUsersRepository } from "../../repositories/users/IUsersRepository";
 import { hash } from "bcryptjs";
 import { inject, injectable } from "tsyringe";
+import { AppError } from "../../../../errors/AppError";
 
 interface IRequest {
   name: string;
@@ -23,7 +24,7 @@ class CreateUserUseCase {
     const userAlreadyExists = await this.usersRepository.findByEmail(email);
 
     if(userAlreadyExists) {
-      throw new Error("User already exists");
+      throw new AppError("User already exists");
     }
 
     const user = await this.usersRepository.create({ name, password: passwordHash, email, driver_license });
