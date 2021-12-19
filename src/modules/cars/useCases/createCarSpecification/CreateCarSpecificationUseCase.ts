@@ -14,7 +14,7 @@ class CreateCarSpecificationUseCase {
   private carsRepository: ICarsRepository
   private specificationsRepository: ISpecificationsRepository
 
-  constructor(@inject("CarsRepository") carsRepository: ICarsRepository, specificationsRepository: ISpecificationsRepository) {
+  constructor(@inject("CarsRepository") carsRepository: ICarsRepository, @inject("SpecificationsRepository") specificationsRepository: ISpecificationsRepository) {
     this.carsRepository = carsRepository
     this.specificationsRepository = specificationsRepository
   }
@@ -27,14 +27,14 @@ class CreateCarSpecificationUseCase {
 
     const specifications = await this.specificationsRepository.findByIds(specifications_id)
 
-    if(!specifications) {
+    if (!specifications) {
       throw new AppError("Specifications does not exists")
     }
 
     existentCar.specifications = specifications
-    
+
     const savedCar = await this.carsRepository.create(existentCar)
-    
+
     return savedCar
   }
 }
