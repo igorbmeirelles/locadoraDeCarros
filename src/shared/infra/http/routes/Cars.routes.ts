@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { CreateCarsController } from "../../../../modules/cars/useCases/createCar/CreateCarsController";
+import { CreateCarsController } from "../../../../modules/cars/useCases/createCars/CreateCarsController";
 import { EnsureAdmin } from "../middleware/EnsureAdmin";
 import { EnsureAuthenticated } from "../middleware/EnsureAuthenticated";
 
