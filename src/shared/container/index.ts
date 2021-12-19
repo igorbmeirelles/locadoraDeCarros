@@ -5,7 +5,10 @@ import { ISpecificationsRepository } from '../../modules/cars/repositories/speci
 import { SpecificationsRepository } from '../../modules/cars/infra/repositories/specifications/SpecificationsRepository';
 import { IUsersRepository } from '../../modules/accounts/repositories/users/IUsersRepository';
 import { UsersRepository } from '../../modules/accounts/infra/typeorm/repositories/users/UsersRepository';
+import { ICarsRepository } from '../../modules/cars/repositories/cars/ICarsRepository';
+import { CarsRepository } from '../../modules/cars/infra/repositories/cars/CarsRepository';
 
 container.registerSingleton<ICategoriesRepository>("CategoriesRepository", CategoriesRepository)
 container.registerSingleton<ISpecificationsRepository>("SpecificationsRepository", SpecificationsRepository)
 container.registerSingleton<IUsersRepository>("UsersRepository", UsersRepository)
+container.registerSingleton<ICarsRepository>("CarsRepository", CarsRepository)

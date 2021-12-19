@@ -1,4 +1,4 @@
-// import { inject, injectable } from "tsyringe";
+import { inject, injectable } from "tsyringe";
 import { AppError } from "../../../../shared/errors/AppError";
 import { Car } from "../../infra/entities/Car";
 import { ICarsRepository } from "../../repositories/cars/ICarsRepository";
@@ -13,10 +13,10 @@ interface IRequest {
   category_id: string;
 }
 
-// @injectable()
+@injectable()
 class CreateCarsUseCase {
   private carsRepository: ICarsRepository
-  constructor(/*@inject("CarsRepository")*/ carsRepository: ICarsRepository) {
+  constructor(@inject("CarsRepository") carsRepository: ICarsRepository) {
     this.carsRepository = carsRepository
   }
 
