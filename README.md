@@ -37,7 +37,6 @@
 
 **Requisitos Funcionais**
 - Deve ser possível cadastrar a imagem do carro.
-- Deve ser possível listar todas os carros.
 
 **Requisitos não Funcional**
 - Utilizar o multer para o upload de arquivos.
