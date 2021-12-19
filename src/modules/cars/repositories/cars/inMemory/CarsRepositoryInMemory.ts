@@ -17,6 +17,12 @@ class CarsRepositoryInMemory implements ICarsRepository {
         fine_amount: 40,
         brand: "VeryGood",
         category_id: "id_mock",
+        specifications: [{
+          id: "mockId",
+          name: "mock_specification",
+          description: "mock_description",
+          created_at: new Date().toString()
+        }],
         created_at: new Date()
       }
     ]
@@ -50,6 +56,11 @@ class CarsRepositoryInMemory implements ICarsRepository {
 
   async findByLicensePlate(licensePlate: string): Promise<Car> {
     const car = this.cars.find(car => car.license_plate === licensePlate)
+    return car
+  }
+
+  async findById(id: string): Promise<Car> {
+    const car = this.cars.find(car => car.id === id)
     return car
   }
 }

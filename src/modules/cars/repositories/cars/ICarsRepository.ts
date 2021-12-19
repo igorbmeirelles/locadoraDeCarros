@@ -10,6 +10,7 @@ interface ICarsRepository {
   create(car: ICarDTO): Promise<Car>;
   findAvailable(category_id?: string, brand?: string, name?: string): Promise<Car[]>;
   findByLicensePlate(licensePlate: string): Promise<Car>;
+  findById(id: string): Promise<Car>;
 }
 
 export { ICarsRepository };
