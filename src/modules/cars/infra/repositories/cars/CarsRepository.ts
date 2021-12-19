@@ -10,8 +10,17 @@ class CarsRepository implements ICarsRepository {
     this.repository = getRepository(Car)
   }
 
-  async create({ name, description, license_plate, brand, daily_rate, fine_amount, category_id }: ICarDTO): Promise<Car> {
-    const car = this.repository.create({ name, description, license_plate, brand, daily_rate, fine_amount, category_id })
+  async create({ id, name, description, license_plate, brand, daily_rate, fine_amount, category_id, specifications }: ICarDTO): Promise<Car> {
+    const car = this.repository.create({
+      id,
+      name,
+      description,
+      license_plate,
+      brand, daily_rate,
+      fine_amount,
+      category_id,
+      specifications
+    })
 
     await this.repository.save(car)
 
@@ -28,23 +37,27 @@ class CarsRepository implements ICarsRepository {
       .createQueryBuilder("c")
       .where("available = :available", { available: true })
 
-      if(brand) {
-        carsQuery.andWhere("brand = :brand", { brand })
-      }
+    if (brand) {
+      carsQuery.andWhere("brand = :brand", { brand })
+    }
 
-      if(name) {
-        carsQuery.andWhere("name = :name", { name })
-      }
-      
-      if(category_id) {
-        carsQuery.andWhere("category_id = :category_id", { category_id })
-      }
+    if (name) {
+      carsQuery.andWhere("name = :name", { name })
+    }
 
-      const cars = await carsQuery.getMany()
+    if (category_id) {
+      carsQuery.andWhere("category_id = :category_id", { category_id })
+    }
 
-      return cars
+    const cars = await carsQuery.getMany()
+
+    return cars
   }
 
+  async findById(id: string): Promise<Car> {
+    const car = await this.repository.findOne(id)
+    return car
+  }
 }
 
 export { CarsRepository };

@@ -1,6 +1,8 @@
 import { inject, injectable } from "tsyringe";
 import { AppError } from "../../../../shared/errors/AppError";
+import { Car } from "../../infra/entities/Car";
 import { ICarsRepository } from "../../repositories/cars/ICarsRepository";
+import { ISpecificationsRepository } from "../../repositories/specifications/ISpecificationsRepository";
 
 interface IRequest {
   car_id: string;
@@ -10,17 +12,30 @@ interface IRequest {
 @injectable()
 class CreateCarSpecificationUseCase {
   private carsRepository: ICarsRepository
-  constructor(@inject("CarsRepository") carsRepository: ICarsRepository) {
-    this.carsRepository = carsRepository
-  }
-  async execute({car_id, specifications_id}: IRequest): Promise<void> {
-    const carAlreadyExists = this.carsRepository.findById(car_id)
+  private specificationsRepository: ISpecificationsRepository
 
-    if(!carAlreadyExists) {
+  constructor(@inject("CarsRepository") carsRepository: ICarsRepository, specificationsRepository: ISpecificationsRepository) {
+    this.carsRepository = carsRepository
+    this.specificationsRepository = specificationsRepository
+  }
+  async execute({ car_id, specifications_id }: IRequest): Promise<Car> {
+    const existentCar = await this.carsRepository.findById(car_id)
+
+    if (!existentCar) {
       throw new AppError("Car does not exists")
     }
 
+    const specifications = await this.specificationsRepository.findByIds(specifications_id)
 
+    if(!specifications) {
+      throw new AppError("Specifications does not exists")
+    }
+
+    existentCar.specifications = specifications
+    
+    const savedCar = await this.carsRepository.create(existentCar)
+    
+    return savedCar
   }
 }
 

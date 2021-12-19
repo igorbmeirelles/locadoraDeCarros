@@ -5,23 +5,16 @@ import { ISpecificationsRepositoryDTO, ISpecificationsRepository } from "../../.
 class SpecificationsRepository implements ISpecificationsRepository {
   private repository: Repository<Specification>
 
-  // private static INSTANCE: SpecificationsRepository;
-
   constructor() {
     this.repository = getRepository(Specification);
   }
-
-  // public static getInstance(): SpecificationsRepository {
-  //   if (!SpecificationsRepository.INSTANCE) {
-  //     SpecificationsRepository.INSTANCE = new SpecificationsRepository();
-  //   }
-
-  //   return SpecificationsRepository.INSTANCE;
-  // }
-  async create({ name, description }: ISpecificationsRepositoryDTO): Promise<void> {
+  
+  async create({ name, description }: ISpecificationsRepositoryDTO): Promise<Specification> {
     const specification = this.repository.create({ name, description });
 
     await this.repository.save(specification);
+
+    return specification;
   }
 
   async list(): Promise<Specification[]> {
@@ -30,6 +23,11 @@ class SpecificationsRepository implements ISpecificationsRepository {
 
   async findByName(name: string): Promise<Specification> | undefined {
     return await this.repository.findOne({name})
+  }
+
+  findByIds(ids: string[]): Promise<Specification[]> {
+    const specifications = this.repository.findByIds(ids);
+    return specifications;
   }
 }
 
