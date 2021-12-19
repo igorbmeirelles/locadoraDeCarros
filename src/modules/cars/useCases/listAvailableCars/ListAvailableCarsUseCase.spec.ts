@@ -1,13 +1,13 @@
 import { CarsRepositoryInMemory } from "../../repositories/cars/inMemory/CarsRepositoryInMemory";
-import { ListCarsUseCase } from "./ListCarsUseCase";
+import { ListAvailableCarsUseCase } from "./ListAvailableCarsUseCase";
 
-let listCarsUseCase: ListCarsUseCase;
+let listAvailableCarsUseCase: ListAvailableCarsUseCase;
 let carsRepository: CarsRepositoryInMemory;
 
 describe('List cars', () => {
   beforeEach(() => {
     carsRepository = new CarsRepositoryInMemory();
-    listCarsUseCase = new ListCarsUseCase(carsRepository)
+    listAvailableCarsUseCase = new ListAvailableCarsUseCase(carsRepository)
   })
 
   it('Should be able to list all avaliable cars', async () => {
@@ -21,8 +21,8 @@ describe('List cars', () => {
       "category_id": "2a733659-b883-409e-9f3d-c02fe06b9979"
     })
 
-    const cars = await listCarsUseCase.execute({})
-    
+    const cars = await listAvailableCarsUseCase.execute({})
+
     expect(cars).toEqual([car])
     expect(cars).toHaveLength(1)
   });
@@ -38,8 +38,8 @@ describe('List cars', () => {
       "category_id": "2a733659-b883-409e-9f3d-c02fe06b9979"
     })
 
-    const cars = await listCarsUseCase.execute({name: "Mockar"})
-    
+    const cars = await listAvailableCarsUseCase.execute({ name: "Mockar" })
+
     expect(cars).toHaveLength(2)
   });
 
@@ -54,7 +54,7 @@ describe('List cars', () => {
       "category_id": "2a733659-b883-409e-9f3d-c02fe06b9979"
     })
 
-    const cars = await listCarsUseCase.execute({category_id: "2a733659-b883-409e-9f3d-c02fe06b9979"})
+    const cars = await listAvailableCarsUseCase.execute({ category_id: "2a733659-b883-409e-9f3d-c02fe06b9979" })
 
     expect(cars).toEqual([car])
     expect(cars).toHaveLength(1)
@@ -71,9 +71,9 @@ describe('List cars', () => {
       "category_id": "2a733659-b883-409e-9f3d-c02fe06b9979"
     })
 
-    const cars = await listCarsUseCase.execute({brand: "VeryGood"})
+    const cars = await listAvailableCarsUseCase.execute({ brand: "VeryGood" })
 
     expect(cars).toHaveLength(2)
   });
-  
+
 })

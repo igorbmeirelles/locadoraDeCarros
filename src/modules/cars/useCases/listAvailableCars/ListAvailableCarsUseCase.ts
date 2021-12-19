@@ -1,6 +1,6 @@
 import { inject, injectable } from "tsyringe";
 import { ICarsRepository } from "../../repositories/cars/ICarsRepository";
-import { Car } from "./../../infra/entities/Car";
+import { Car } from "../../infra/entities/Car";
 
 interface IRequest {
   category_id?: string;
@@ -8,7 +8,7 @@ interface IRequest {
   name?: string;
 }
 @injectable()
-class ListCarsUseCase {
+class ListAvailableCarsUseCase {
   private carsRepository: ICarsRepository
   constructor(@inject("CarsRepository") carsRepository: ICarsRepository) {
     this.carsRepository = carsRepository
@@ -20,4 +20,4 @@ class ListCarsUseCase {
   }
 }
 
-export { ListCarsUseCase };
+export { ListAvailableCarsUseCase };
