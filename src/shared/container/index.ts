@@ -7,8 +7,11 @@ import { IUsersRepository } from '../../modules/accounts/repositories/users/IUse
 import { UsersRepository } from '../../modules/accounts/infra/typeorm/repositories/users/UsersRepository';
 import { ICarsRepository } from '../../modules/cars/repositories/cars/ICarsRepository';
 import { CarsRepository } from '../../modules/cars/infra/repositories/cars/CarsRepository';
+import { ICarsImagesRepository } from '../../modules/cars/repositories/cars/ICarsImagesRepository';
+import { CarsImagesRepository } from '../../modules/cars/infra/repositories/cars/CarsImagesRepository';
 
 container.registerSingleton<ICategoriesRepository>("CategoriesRepository", CategoriesRepository)
 container.registerSingleton<ISpecificationsRepository>("SpecificationsRepository", SpecificationsRepository)
 container.registerSingleton<IUsersRepository>("UsersRepository", UsersRepository)
 container.registerSingleton<ICarsRepository>("CarsRepository", CarsRepository)
+container.registerSingleton<ICarsImagesRepository>("CarsImagesRepository", CarsImagesRepository)
