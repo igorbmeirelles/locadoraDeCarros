@@ -1,3 +1,4 @@
+import { inject, injectable } from "tsyringe";
 import { IDateProvider } from "../../../../shared/container/providers/dateProvider/IDateProvider";
 import { AppError } from "../../../../shared/errors/AppError";
 import { Rental } from "../../infra/typeorm/entities/Rental";
@@ -12,11 +13,13 @@ interface IRequest {
   total?: number;
 }
 
+@injectable()
 class CreateCarRentalsUseCase {
   private readonly minimumRentalHours: number = 24;
   private dateProvider: IDateProvider
   private rentalsRepository: IRentalsRepository;
-  constructor(rentalsRepository: IRentalsRepository, dateProvider: IDateProvider) {
+
+  constructor(@inject("RentalsRepository") rentalsRepository: IRentalsRepository, @inject("DayjsDateProvider") dateProvider: IDateProvider) {
     this.dateProvider = dateProvider;
     this.rentalsRepository = rentalsRepository
   }
@@ -33,15 +36,15 @@ class CreateCarRentalsUseCase {
     if (userAlreadyHasRental) {
       throw new AppError('User already has rental in progress');
     }
-    
+
     const dateNow = this.dateProvider.dateNow();
     const compareDate = this.dateProvider.compareInHours(dateNow, expected_return_date);
-    console.log(compareDate)
+
 
     if (compareDate < this.minimumRentalHours) {
       throw new AppError('Expected return date must be at least 24 hours from now');
     }
-    const rental = await this.rentalsRepository.create({ car_id, user_id, end_date })
+    const rental = await this.rentalsRepository.create({ car_id, user_id, expected_return_date })
     return rental
   }
 }
