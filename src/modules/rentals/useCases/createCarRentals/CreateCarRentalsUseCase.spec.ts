@@ -1,28 +1,55 @@
 import { AppError } from "../../../../shared/errors/AppError";
 import { RentalsRepositoryInMemory } from "../../repository/inMemory/RentalsRepositoryInMemory";
 import { CreateCarRentalsUseCase } from "./CreateCarRentalsUseCase";
-import { DayjsDateProvider } from "./../../../../shared/container/providers/dateProvider/DayjsDateProvider"
+import { DayjsDateProvider } from "../../../../shared/container/providers/dateProvider/DayjsDateProvider"
 import dayjs from "dayjs"
+import { CarsRepositoryInMemory } from "../../../cars/repositories/cars/inMemory/CarsRepositoryInMemory";
+import { ICarsRepository } from "../../../cars/repositories/cars/ICarsRepository";
+import { IDateProvider } from "../../../../shared/container/providers/dateProvider/IDateProvider";
+import { IRentalsRepository } from "../../repository/IRentalsRepository";
 
-let createCarRentalsUseCase
-let rentalsRepositoryInMemory
-let dayjsDateProvider
+let createCarRentalsUseCase: CreateCarRentalsUseCase
+let rentalsRepositoryInMemory: IRentalsRepository
+let dayjsDateProvider: IDateProvider
+let carsRepositoryInMemory: ICarsRepository
 
 describe('Create car rental', () => {
   const day24HoursLater = dayjs().add(24, 'hour').toDate()
   beforeEach(() => {
+    carsRepositoryInMemory = new CarsRepositoryInMemory()
     dayjsDateProvider = new DayjsDateProvider()
     rentalsRepositoryInMemory = new RentalsRepositoryInMemory()
 
-    createCarRentalsUseCase = new CreateCarRentalsUseCase(rentalsRepositoryInMemory, dayjsDateProvider)
+    createCarRentalsUseCase = new CreateCarRentalsUseCase(
+      rentalsRepositoryInMemory,
+      dayjsDateProvider,
+      carsRepositoryInMemory
+    )
+
   })
 
   it('Should be able to create a car rental', async () => {
+    let car = await  carsRepositoryInMemory.create({
+      category_id: "test",
+      brand: "test",
+      name: "test",
+      license_plate: "test",
+      daily_rate: 10,
+      description: "test",
+      fine_amount: 10,      
+    })
+    
+    expect(car.available).toBe(true)
+
     const rental = await createCarRentalsUseCase.execute({
-      car_id: '123',
+      car_id: car.id,
       user_id: '123',
       expected_return_date: day24HoursLater,
     })
+
+    car = await carsRepositoryInMemory.findById(car.id)
+
+    expect(car.available).toBe(false)
     expect(rental).toHaveProperty('id')
     expect(rental).toHaveProperty('start_date')
   });
