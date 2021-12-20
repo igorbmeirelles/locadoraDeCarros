@@ -16,7 +16,7 @@ const CategoriesRoutes = Router();
 
 CategoriesRoutes.post("/", EnsureAuthenticated, EnsureAdmin, createCategoryController.handle)
 
-CategoriesRoutes.get("/", new ListCategoriesController().handle)
+CategoriesRoutes.get("/", EnsureAuthenticated, EnsureAdmin, new ListCategoriesController().handle)
 
 CategoriesRoutes.post("/import", EnsureAuthenticated, EnsureAdmin, upload.single("file"), new ImportCategoryController().handle)
 
