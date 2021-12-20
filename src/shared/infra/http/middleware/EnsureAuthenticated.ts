@@ -19,6 +19,7 @@ export async function EnsureAuthenticated(req: Request, res: Response, next: Nex
   if (!token) {
     throw new AppError("Token is missing", 401)
   }
+
   try {
     const { sub: user_id } = verify(token, "2bb33ad06ad2a6fe6c4b4eb862f08605") as unknown as IPayload
 
@@ -32,6 +33,6 @@ export async function EnsureAuthenticated(req: Request, res: Response, next: Nex
     req.user = { id: user.id }
     next()
   } catch {
-    throw new AppError("Token is missing", 401)
+    throw new AppError("Token is not valid", 401)
   }
 }
