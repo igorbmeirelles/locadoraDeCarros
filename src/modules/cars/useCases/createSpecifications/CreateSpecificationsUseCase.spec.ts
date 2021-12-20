@@ -12,7 +12,7 @@ describe('Create specification', () => {
     createSpecificationUseCase = new CreateSpecificationsUseCase(specificationsRepository)
   })
 
-  it('Should be able to create a new category', async () => {
+  it('Should be able to create a new specification', async () => {
     const specification: ISpecificationsRepositoryDTO = {
       name: "Test",
       description: "Description test"
@@ -26,17 +26,24 @@ describe('Create specification', () => {
 
   });
 
-  it('Should not be able to create a duplicate user', () => {
-    expect(async () => {
-      const specification: ISpecificationsRepositoryDTO = {
-        name: "Test",
-        description: "Description test"
-      }
+  it('Should not be able to create a duplicate specification', async () => {
+    let expectedError
 
-      await createSpecificationUseCase.execute(specification)
+    const specification: ISpecificationsRepositoryDTO = {
+      name: "Test",
+      description: "Description test"
+    }
+
+    await createSpecificationUseCase.execute(specification)
+
+    try {
       await createSpecificationUseCase.execute(specification)
 
-    }).rejects.toBeInstanceOf(AppError)
+    } catch (err) {
+      expectedError = err
+    }
+
+    expect(expectedError).toEqual(new AppError("Specification already exists"))
   });
 
 })

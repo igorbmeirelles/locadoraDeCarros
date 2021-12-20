@@ -29,22 +29,22 @@ describe('Create car rental', () => {
   })
 
   it('Should be able to create a car rental', async () => {
-    let car = await  carsRepositoryInMemory.create({
+    let car = await carsRepositoryInMemory.create({
       category_id: "test",
       brand: "test",
       name: "test",
       license_plate: "test",
       daily_rate: 10,
       description: "test",
-      fine_amount: 10,      
+      fine_amount: 10,
     })
-    
+
     expect(car.available).toBe(true)
 
     const rental = await createCarRentalsUseCase.execute({
       car_id: car.id,
       user_id: '123',
-      expected_return_date: day24HoursLater,
+      expected_return_date: dayjs().add(24, 'hour').toDate(),
     })
 
     car = await carsRepositoryInMemory.findById(car.id)
@@ -55,45 +55,106 @@ describe('Create car rental', () => {
   });
 
   it('Should not be able to create a car rental when a user already has one rental open', async () => {
-    expect(async () => {
+    let expectedError
+    let car1 = await carsRepositoryInMemory.create({
+      category_id: "test",
+      brand: "test",
+      name: "test",
+      license_plate: "test",
+      daily_rate: 10,
+      description: "test",
+      fine_amount: 10,
+    })
+
+    let car2 = await carsRepositoryInMemory.create({
+      category_id: "test",
+      brand: "test",
+      name: "test",
+      license_plate: "test",
+      daily_rate: 10,
+      description: "test",
+      fine_amount: 10,
+    })
+
+    expect(car1.available).toBe(true)
+    expect(car2.available).toBe(true)
+
+    await createCarRentalsUseCase.execute({
+      car_id: car1.id,
+      user_id: '123',
+      expected_return_date: dayjs().add(24, 'hour').toDate(),
+    })
+
+    try {
       await createCarRentalsUseCase.execute({
-        car_id: '123',
+        car_id: car2.id,
         user_id: '123',
-        expected_return_date: day24HoursLater,
+        expected_return_date: dayjs().add(24, 'hour').toDate(),
       })
 
-      await createCarRentalsUseCase.execute({
-        car_id: '123',
-        user_id: '123',
-        expected_return_date: day24HoursLater,
-      })
-    }).rejects.toBeInstanceOf(AppError)
+    } catch (err) {
+      expectedError = err
+    }
+
+    expect(expectedError).toEqual(new AppError('User already has rental in progress'))
   });
 
   it('Should not be able to create a car rental when a car is already rented', async () => {
-    expect(async () => {
-      await createCarRentalsUseCase.execute({
-        car_id: '123',
-        user_id: '12345',
-        expected_return_date: day24HoursLater,
-      })
+    let expectedError
 
+    let car = await carsRepositoryInMemory.create({
+      category_id: "test",
+      brand: "test",
+      name: "test",
+      license_plate: "test",
+      daily_rate: 10,
+      description: "test",
+      fine_amount: 10,
+    })
+
+    expect(car.available).toBe(true)
+
+    await createCarRentalsUseCase.execute({
+      car_id: car.id,
+      user_id: '12345',
+      expected_return_date: day24HoursLater,
+    })
+
+    try {
       await createCarRentalsUseCase.execute({
-        car_id: '123',
+        car_id: car.id,
         user_id: '123',
         expected_return_date: new Date(),
       })
-    }).rejects.toBeInstanceOf(AppError)
+    } catch (err) {
+      expectedError = err
+    }
+    expect(expectedError).toEqual(new AppError('Car unavailable'))
   });
 
-  it('Should not be able to rent a car with less then 24 hours of rental time', () => {
-    expect(async () => {
+  it('Should not be able to rent a car with less then 24 hours of rental time', async () => {
+    let expectedError
+    
+    let car = await carsRepositoryInMemory.create({
+      category_id: "test",
+      brand: "test",
+      name: "test",
+      license_plate: "test",
+      daily_rate: 10,
+      description: "test",
+      fine_amount: 10,
+    })
+
+    try {
       await createCarRentalsUseCase.execute({
-        car_id: '123',
+        car_id: car.id,
         user_id: '12345',
         expected_return_date: new Date(),
       })
-    }).rejects.toBeInstanceOf(AppError)
+    } catch (err) {
+      expectedError = err
+    }
+    expect(expectedError).toEqual(new AppError("Expected return date must be at least 24 hours from now"))
   });
 
 })
