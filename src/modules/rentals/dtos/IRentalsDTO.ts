@@ -1,4 +1,5 @@
 interface IRentalsDTO {
+  id?: string;
   car_id: string;
   user_id: string;
   start_date?: Date;
