@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "ts-node-dev --transpile-only --ignore-watch node_modules --respawn src/server.ts",
     "typeORM": "ts-node-dev ./node_modules/typeorm/cli",
-    "test": "jest",
+    "test": "jest --runInBand",
     "seedAdmin": "ts-node-dev ./src/shared/infra/typeorm/seed/Admin.ts"
   },
   "keywords": [],
