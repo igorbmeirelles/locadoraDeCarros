@@ -1,5 +1,5 @@
 import { verify, sign } from 'jsonwebtoken';
-import { inject } from 'tsyringe';
+import { inject, injectable } from 'tsyringe';
 import auth from '../../../../config/auth';
 import { IDateProvider } from '../../../../shared/container/providers/dateProvider/IDateProvider';
 import { AppError } from '../../../../shared/errors/AppError';
@@ -14,6 +14,7 @@ interface IPayload {
   email: string;
 }
 
+@injectable()
 class RefreshTokenUseCase {
   private userTokenRepository: IUsersTokenRepository
   private dayjsDateProvider: IDateProvider
