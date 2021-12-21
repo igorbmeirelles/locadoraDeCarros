@@ -17,6 +17,7 @@ services:
   app:
     build: .
     container_name: rentex
+    restart: always
     ports:
       - 3000:3000
     volumes:
