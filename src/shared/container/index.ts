@@ -12,7 +12,8 @@ import { CarsImagesRepository } from '../../modules/cars/infra/repositories/cars
 import { IRentalsRepository } from '../../modules/rentals/repository/IRentalsRepository';
 import { RentalsRepository } from '../../modules/rentals/infra/typeorm/repositories/RentalsRepository';
 
-import "./providers/dateProvider";
+import "./providers";
+
 import { IUsersTokenRepository } from '../../modules/accounts/repositories/token/IUsersTokenRepository';
 import { UsersTokenRepository } from '../../modules/accounts/infra/typeorm/repositories/token/UsersTokenRepository';
 
