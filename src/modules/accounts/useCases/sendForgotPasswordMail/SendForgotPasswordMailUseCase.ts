@@ -3,6 +3,7 @@ import { AppError } from "../../../../shared/errors/AppError";
 import { IUsersTokenRepository } from "../../repositories/token/IUsersTokenRepository";
 import { IUsersRepository } from "../../repositories/users/IUsersRepository";
 import { v4 as uuid } from "uuid";
+import { resolve } from "path"
 import { IDateProvider } from "../../../../shared/container/providers/dateProvider/IDateProvider";
 import { IMailProvider } from "../../../../shared/container/providers/mailProvider/IMailProvider";
 
@@ -39,7 +40,18 @@ class SendForgotPasswordMailUseCase {
       expires_date
     })
 
-    await this.mailProvider.sendMail(email, "Recuperação de senha", `o link para o reset e ${token}`)
+    const templatePath = resolve(__dirname, "..", "..", "views", "emails", "forgotPassword.hbs")
+    const variables = {
+      name: user.name,
+      link: `${process.env.FORGOT_MAIL_URL}${token}`
+    }
+
+    await this.mailProvider.sendMail(
+      email,
+      "Recuperação de senha",
+      variables,
+      templatePath
+    )
   }
 }
 
