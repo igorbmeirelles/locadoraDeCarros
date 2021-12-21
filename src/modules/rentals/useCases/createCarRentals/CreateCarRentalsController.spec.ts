@@ -39,7 +39,7 @@ describe('List categories controller', () => {
       password: "admin"
     })
 
-    const { token } = tokenResponse.body
+    const { refresh_token: token } = tokenResponse.body
 
     const responseCreateCategory = await request(app).post("/categories").send({
       name: "sport",
