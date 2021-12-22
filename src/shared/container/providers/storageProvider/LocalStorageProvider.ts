@@ -21,7 +21,7 @@ class LocalStorageProvider implements IStorageProvider {
     } catch {
       return;
     }
-    console.log(filename);
+
     await fs.promises.unlink(filename);
   }
 }

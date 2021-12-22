@@ -5,6 +5,7 @@ import { EtherealMailProvider } from "./mailProvider/EtherealMailProvider";
 import { IMailProvider } from "./mailProvider/IMailProvider";
 import { IStorageProvider } from "./storageProvider/IStorageProvider";
 import { LocalStorageProvider } from "./storageProvider/LocalStorageProvider";
+import { S3StorageProvider } from "./storageProvider/S3StorageProvider";
 
 container.registerSingleton<IDateProvider>(
   "DayjsDateProvider",
@@ -16,7 +17,12 @@ container.registerInstance<IMailProvider>(
   new EtherealMailProvider()
 );
 
+const diskStorage = {
+  local: LocalStorageProvider,
+  S3: S3StorageProvider,
+};
+
 container.registerSingleton<IStorageProvider>(
   "StorageProvider",
-  LocalStorageProvider
+  diskStorage[process.env.disk]
 );
