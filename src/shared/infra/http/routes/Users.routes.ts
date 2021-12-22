@@ -4,6 +4,7 @@ import { UpdateUserAvatarController } from "../../../../modules/accounts/useCase
 import multer from "multer";
 import uploadConfig from "../../../../config/upload";
 import { EnsureAuthenticated } from "../middleware/EnsureAuthenticated";
+import { ProfileUserController } from "../../../../modules/accounts/useCases/profileUser/ProfileUserController";
 const UserRoutes = Router();
 
 const uploadAvatar = multer(uploadConfig);
@@ -14,6 +15,11 @@ UserRoutes.patch(
   uploadAvatar.single("file"),
   EnsureAuthenticated,
   new UpdateUserAvatarController().handle
+);
+UserRoutes.get(
+  "/profile",
+  EnsureAuthenticated,
+  new ProfileUserController().handle
 );
 
 export { UserRoutes };
