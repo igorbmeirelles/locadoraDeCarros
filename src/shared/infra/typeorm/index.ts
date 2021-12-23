@@ -1,16 +1,18 @@
-import { createConnection, getConnectionOptions } from 'typeorm';
+import { createConnection, getConnectionOptions } from "typeorm";
 
 interface IOptions {
   host: string;
 }
 
-export default async (host = "database") => {
-  const defaultOptions = await getConnectionOptions()
+export default async () => {
+  const defaultOptions = await getConnectionOptions();
 
   return createConnection(
     Object.assign(defaultOptions, {
-      host: process.env.NODE_ENV === 'test' ? "localhost" : host,
-      database: process.env.NODE_ENV === 'test' ? "rentex_test" : defaultOptions.database,
+      database:
+        process.env.NODE_ENV === "test"
+          ? "rentex_test"
+          : defaultOptions.database,
     })
-  )
-}
+  );
+};
