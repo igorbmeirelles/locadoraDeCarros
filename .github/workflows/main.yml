@@ -34,3 +34,16 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           source: "., node_modules"
           target: "test"
+          
+      - name: Update api multiple command
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          port: ${{ secrets.PORT }}
+          script: |
+            cd ~/locadoraDeCarros
+            npm install
+            ./node_modules/.bin/typeorm migration:run
+            pm2 restart rentex_api
