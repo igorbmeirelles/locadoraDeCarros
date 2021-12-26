@@ -1,0 +1,36 @@
+Criar chaves publicas/privadas com ssh-keygen para o colocar
+no authorized_keys do servidor
+
+colocar a publica no servidor e a sem extensao colocar no
+github
+
+ssh_key a chave ssh gerada
+ssh_host ip da instancia amazon
+ssh_user usuario criado na instancia amazon
+ssh_port porta criada
+
+jobs: 
+  build:
+    runs-on:
+      stage:
+        - users:
+        - name: Setup Nodejs
+          uses: actions/setup-node@v2
+          with:
+            node-version: 14.x
+        - name: Install Dependencies
+          run: npm install
+        
+        - name: Build
+          run: npm run build
+        
+        - uses: appleboy/scp-action@master
+          with:
+            host: ${{ secrets.SSH_HOST }}
+            username: ${{ secrets.SSH_USER }}
+            port: ${{ secrets.PORT }}
+            key: ${{ secrets.SSH_KEY }}
+            source: "., node_modules"
+            target: "test"
+
+

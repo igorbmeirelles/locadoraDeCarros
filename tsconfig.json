@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
     "target": "es2016",
+    "rootDir": "./",
+    "baseUrl": "./src",
     "outDir": "./dist",                             
     "experimentalDecorators": true,                
     "emitDecoratorMetadata": true,                 
