@@ -5,6 +5,7 @@ import express, { NextFunction, Response, Request } from "express";
 import "express-async-errors";
 import { router } from "./shared/infra/http/routes";
 import createConnection from "./shared/infra/typeorm";
+import cors from "cors";
 
 import "./shared/container";
 
@@ -14,6 +15,7 @@ import upload from "./config/upload";
 createConnection();
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 app.use(router);
 
