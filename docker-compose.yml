@@ -14,18 +14,23 @@ services:
     volumes:
       - pgdata:/data/postgres
 
-  app:
-    build: .
-    container_name: rentex
-    restart: always
+  redis:
+    image: redis:alpine
     ports:
-      - 3000:3000
-    volumes:
-      - .:/usr/app
-    links:
-      - database
-    depends_on:
-      - database
+      - 6379:6379
+
+  # app:
+  #   build: .
+  #   container_name: rentex
+  #   restart: always
+  #   ports:
+  #     - 3000:3000
+  #   volumes:
+  #     - .:/usr/app
+  #   links:
+  #     - database
+  #   depends_on:
+  #     - database
 
 volumes:
   pgdata:
