@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@master
 
       - name: Setup Nodejs
         uses: actions/setup-node@v2
@@ -32,7 +32,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           port: ${{ secrets.SSH_PORT }}
           key: ${{ secrets.SSH_KEY }}
-          source: "."
+          source: "., node_modules"
           target: "test"
           
       - name: Update api multiple command
