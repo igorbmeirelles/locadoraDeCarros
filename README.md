@@ -1,79 +1,81 @@
-## Aplicação de locação de carros
+## Car Rental Application
 
-### Cadastro de carro
-**Requisitos Funcionais**
-- Deve ser possível cadastrar um novo carro.
-- Deve ser possível listar todas as categorias.
+### Car Registration
+**Functional Requirements**
+- It must be possible to register a new car.
+- It must be possible to list all categories.
 
-**Requisitos não funcionais**
+**Non-Functional Requirements**
 
-**Regra de negócio**
-- Não deve ser possível cadastrar com a placa já existente.
-- Não deve ser possível alterar a placa de um carro.
-- O carro deve estar disponivel no momento do cadastro.
-- O usuário responsável pelo cadastro deve ser administrador.
+**Business Rules**
+- It should not be possible to register a car with an already existing license plate.
+- It should not be possible to change the license plate of a car.
+- The car must be available at the time of registration.
+- The user responsible for the registration must be an administrator.
 
-### Listagem de carros
+### Car Listing
 
-**Requisitos Funcionais**
-- Deve ser possível listar todos os carros disponíveis.
-- Deve ser possível listar todos os carros pela nome: da categoria, da marca, do carro.
+**Functional Requirements**
+- It must be possible to list all available cars.
+- It must be possible to list all cars by category name, brand, or car name.
 
-**Regra de negócio**
-- O usuário não precisa estar logado no sistema para ver a listagem.
+**Business Rules**
+- The user does not need to be logged in to view the listing.
 
-### Cadastro de especificação do carro
+### Car Specification Registration
 
-**Requisitos Funcionais**
-- Deve ser possível cadastrar uma especificação para um carro.
+**Functional Requirements**
+- It must be possible to register a specification for a car.
 
-**Regra de negócio**
-- Não deve ser possível cadastrar uma especificação para um carro inexistente.
-- Não deve ser possível cadastrar uma especificação já existente para o mesmo carro.
-- O usuário responsável pelo cadastro deve ser administrador.
+**Business Rules**
+- It should not be possible to register a specification for a non-existent car.
+- It should not be possible to register an existing specification for the same car.
+- The user responsible for the registration must be an administrator.
 
+### Car Image Registration
 
-### Cadastro de imagens do carro
+**Functional Requirements**
+- It must be possible to register an image for a car.
 
-**Requisitos Funcionais**
-- Deve ser possível cadastrar a imagem do carro.
+**Non-Functional Requirements**
+- Use Multer for file upload.
 
-**Requisitos não Funcional**
-- Utilizar o multer para o upload de arquivos.
+**Business Rules**
+- The user can register more than one image for the same car.
+- The user responsible for the registration must be an administrator.
 
-**Regra de negócio**
-- O usuário pode cadastrar mais de uma imagem para o mesmo carro.
-- O usuário responsável pelo cadastro deve ser administrador.
+### Car Rental
 
-### Aluguel de carro
-**Requisitos Funcionais**
-- Deve ser possível cadastrar um aluguel.
+**Functional Requirements**
+- It must be possible to register a car rental.
 
-**Regra de negócio**
-- O aluguel deve ter duração mínima de 24 horas.
-- Não deve ser possível cadastrar um novo aluguel caso já exista um aberto para o mesmo usuário.
-- Não deve ser possível cadastrar um novo aluguel caso já exista um aberto para o mesmo.
-- O usuario deve estar logado na aplicacao
-- Ao realizar um aluguel o status do carro deverá ser alterado para indisponível.
+**Business Rules**
+- The rental must have a minimum duration of 24 hours.
+- It should not be possible to register a new rental if one is already open for the same user.
+- It should not be possible to register a new rental if one is already open for the same car.
+- The user must be logged into the application.
+- When renting a car, its status should change to unavailable.
 
-### Devolução de um carro
-**Requisitos Funcionais**
-- Deve ser possível realizar a devolução de um carro
+### Car Return
 
-**Regra de negócio**
-- Se o carro for devolvido com menos de 24 horas deve ser cobrado a diária completa.
-- Ao realizar a devolução, o carro deverá ser liberado para outro aluguel.
-- Ao realizar a devolução, o usuário deverá ser liberado para outro aluguel.
-- Ao realizar a devolução, deverá ser calculado o total do aluguel.
-- Caso o horário de devolução seja superior ao horário previsto de entrega, deverá ser cobrado multa prorcional aos dias de atraso.
-- Caso haja multa, deverá ser somado ao total do aluguel.
+**Functional Requirements**
+- It must be possible to return a car.
 
-### Recuperar Senha
-**Requisitos Funcionais**
-- Deve ser possivel recuperar a senha informando o email
-- O usuario deve receber um email com o passo a passo para a recuperação da senha
-- O usuario deve conseguir inserir uma nova senha 
+**Business Rules**
+- If the car is returned within less than 24 hours, the full daily rate should be charged.
+- When the car is returned, it should be made available for another rental.
+- When the car is returned, the user should be made available for another rental.
+- When the car is returned, the total rental amount should be calculated.
+- If the return time exceeds the expected return time, a late fee should be charged based on the number of days overdue.
+- If there is a late fee, it should be added to the total rental amount.
 
-**Regra de negócio**
-- O usuario precisa inserir uma nova senha
-- O link enviado para recuperacao de senha dever expirar em 3 horas
+### Password Recovery
+
+**Functional Requirements**
+- It must be possible to recover a password by providing the email.
+- The user should receive an email with the steps for password recovery.
+- The user must be able to enter a new password.
+
+**Business Rules**
+- The user must enter a new password.
+- The recovery link sent for the password reset should expire in 3 hours.
